@@ -10,11 +10,14 @@ namespace Vehiculos.Data
         {
         }
 
+        public DbSet<Procedure> Procedures { get; set; }
         public DbSet<VehiculeType> VehiculeTypes { get; set; }
+        public object Procedure { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Procedure>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<VehiculeType>().HasIndex(x => x.Description).IsUnique();
         }
     }
