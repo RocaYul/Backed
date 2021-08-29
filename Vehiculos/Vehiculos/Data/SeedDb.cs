@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vehiculos.Common.Enums;
 using Vehiculos.Data.Entities;
+using Vehiculos.Models.Helpers;
 
 namespace Vehiculos.Data
 {
     public class SeedDb
     {
         private readonly DataContext _context;
-        public SeedDb(DataContext context)
+        private readonly IUserHelper _userHelper;
+        public SeedDb(DataContext context, IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
 
@@ -21,9 +25,58 @@ namespace Vehiculos.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckVehiculesTypeAsync();
             await CheckProceduresAsync();
-            //Faltan los de las 2 tablas
+            await CheckBrandsAsync();
+            await CheckTypeDocumentsAsync();
+            await CheckRoleAsync();
+            await CheckUserAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
+            await CheckUserAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
+            await CheckUserAsync("3030", "Ledys", "Bedoya", "ledys@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
+            await CheckUserAsync("4040", "Sandra", "Lopera", "sandra@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
         }
 
+        private async Task CheckUserAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
+        {
+            User user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Address = address,
+                    Document = document,
+                    DocumentType = _context.TypeDocuments.FirstOrDefault(x => x.Description == "Cédula").ToString(),
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PhoneNumber = phoneNumber,
+                    UserName = email,
+                    UserType = userType
+                };
+
+                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+
+                //string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                //await _userHelper.ConfirmEmailAsync(user, token);
+            }
+        }
+
+        private async Task CheckRoleAsync()
+        {
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
+        }
+
+        private async Task CheckTypeDocumentsAsync()
+        {
+            if (!_context.TypeDocuments.Any())
+            {
+                _context.TypeDocuments.Add(new TypeDocument { Description = "Cédula" });
+                _context.TypeDocuments.Add(new TypeDocument { Description = "Tarjeta de Identidad" });
+                _context.TypeDocuments.Add(new TypeDocument { Description = "NIT" });
+                _context.TypeDocuments.Add(new TypeDocument { Description = "Pasaporte" });
+                await _context.SaveChangesAsync();
+            }
+        }
         private async Task CheckProceduresAsync()
         {
             if (!_context.Procedures.Any())
@@ -64,6 +117,30 @@ namespace Vehiculos.Data
             {
                 _context.VehiculeTypes.Add(new VehiculeType { Description = "Carro" });
                 _context.VehiculeTypes.Add(new VehiculeType { Description = "Moto" });
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckBrandsAsync()
+        {
+            if (!_context.Brands.Any())
+            {
+                _context.Brands.Add(new Brand { Description = "Ducati" });
+                _context.Brands.Add(new Brand { Description = "Harley Davidson" });
+                _context.Brands.Add(new Brand { Description = "KTM" });
+                _context.Brands.Add(new Brand { Description = "BMW" });
+                _context.Brands.Add(new Brand { Description = "Triumph" });
+                _context.Brands.Add(new Brand { Description = "Victoria" });
+                _context.Brands.Add(new Brand { Description = "Honda" });
+                _context.Brands.Add(new Brand { Description = "Suzuki" });
+                _context.Brands.Add(new Brand { Description = "Kawasaky" });
+                _context.Brands.Add(new Brand { Description = "TVS" });
+                _context.Brands.Add(new Brand { Description = "Bajaj" });
+                _context.Brands.Add(new Brand { Description = "AKT" });
+                _context.Brands.Add(new Brand { Description = "Yamaha" });
+                _context.Brands.Add(new Brand { Description = "Chevrolet" });
+                _context.Brands.Add(new Brand { Description = "Mazda" });
+                _context.Brands.Add(new Brand { Description = "Renault" });
                 await _context.SaveChangesAsync();
             }
         }
