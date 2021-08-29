@@ -25,7 +25,7 @@ namespace Vehiculos.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckVehiculesTypeAsync();
             await CheckProceduresAsync();
-            await CheckBrandsAsync();
+            //await CheckBrandsAsync();
             await CheckTypeDocumentsAsync();
             await CheckRoleAsync();
             await CheckUserAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
@@ -43,7 +43,7 @@ namespace Vehiculos.Data
                 {
                     Address = address,
                     Document = document,
-                    DocumentType = _context.TypeDocuments.FirstOrDefault(x => x.Description == "Cédula").ToString(),
+                    //DocumentType = _context.TypeDocuments.FirstOrDefault(x => x.Description == "Cédula"),
                     Email = email,
                     FirstName = firstName,
                     LastName = lastName,
