@@ -20,7 +20,7 @@ namespace Vehiculos.Controllers
             _context = context;
         }
 
-        // GET: VehiculeTypes
+        // GET: Procedure
         public async Task<IActionResult> Index()
         {
             return View(await _context.Procedures.ToListAsync());
@@ -64,7 +64,7 @@ namespace Vehiculos.Controllers
             return View(procedure);
         }
 
-        // GET: VehiculeTypes/Edit/5
+        // GET: Procedure/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

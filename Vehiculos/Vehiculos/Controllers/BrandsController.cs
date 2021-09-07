@@ -32,9 +32,6 @@ namespace Vehiculos.Controllers
             return View();
         }
 
-        // POST: VehiculeTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Brand brand)
@@ -51,7 +48,7 @@ namespace Vehiculos.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de marcas");
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de marca");
                     }
                     else
                     {
@@ -68,7 +65,7 @@ namespace Vehiculos.Controllers
             return View(brand);
         }
 
-        // GET: VehiculeTypes/Edit/5
+        // GET: Edit/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,9 +81,6 @@ namespace Vehiculos.Controllers
             return View(brand);
         }
 
-        // POST: VehiculeTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Brand brand)
@@ -124,7 +118,7 @@ namespace Vehiculos.Controllers
             return View(brand);
         }
 
-        // GET: VehiculeTypes/Delete/5
+        // GET: Brands/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
