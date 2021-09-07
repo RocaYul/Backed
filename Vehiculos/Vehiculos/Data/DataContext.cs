@@ -13,6 +13,8 @@ namespace Vehiculos.Data
 
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+
         public DbSet<VehiculeType> VehiculeTypes { get; set; }
         public DbSet<TypeDocument> TypeDocuments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,6 +22,7 @@ namespace Vehiculos.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Brand>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<Procedure>().HasIndex(x => x.Description).IsUnique();
+            modelBuilder.Entity<Vehicle>().HasIndex(x => x.Plaque).IsUnique();
             modelBuilder.Entity<VehiculeType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<TypeDocument>().HasIndex(x => x.Description).IsUnique();
         }

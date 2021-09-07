@@ -48,5 +48,6 @@ namespace Vehiculos.Data.Entities
         [Display(Name = "Usuario")]
         public string Fullname => $"{FirstName} {LastName}";
 
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }
