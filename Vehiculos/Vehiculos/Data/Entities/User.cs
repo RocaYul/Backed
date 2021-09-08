@@ -49,5 +49,8 @@ namespace Vehiculos.Data.Entities
         public string Fullname => $"{FirstName} {LastName}";
 
         public ICollection<Vehicle> Vehicles { get; set; }
+
+        [Display(Name ="# Vehiculos")]
+        public int VehiclesCount => Vehicles == null ? 0 : Vehicles.Count;
     }
 }

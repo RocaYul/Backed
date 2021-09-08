@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vehiculos.Data;
 using Vehiculos.Data.Entities;
+using Vehiculos.Helpers;
 using Vehiculos.Models.Helpers;
 
 namespace Vehiculos
@@ -43,6 +44,7 @@ namespace Vehiculos
 
             services.AddTransient<SeedDb>();//Only one time
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<ICombosHelper, CombosHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
