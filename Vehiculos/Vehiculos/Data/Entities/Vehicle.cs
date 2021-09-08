@@ -61,8 +61,6 @@ namespace Vehiculos.Data.Entities
 
         public ICollection<History> Histories { get; set; }
 
-        public ICollection<VehiclePhoto> vehiclePhotos { get; set; }
-
         [Display(Name = "# Historias")]
         public int HistoriesCount => Histories == null ? 0 : Histories.Count;
     }
