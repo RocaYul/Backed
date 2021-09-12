@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Vehiculos.Data;
 
 namespace Vehiculos.Helpers
@@ -40,8 +38,8 @@ namespace Vehiculos.Helpers
                 Text = x.Description,
                 Value = $"{x.Id}"
             })
-                           .OrderBy(x => x.Text)
-                           .ToList();
+                .OrderBy(x => x.Text)
+                .ToList();
 
             list.Insert(0, new SelectListItem
             {
@@ -78,8 +76,8 @@ namespace Vehiculos.Helpers
                 Text = x.Description,
                 Value = $"{x.Id}"
             })
-                           .OrderBy(x => x.Text)
-                           .ToList();
+                .OrderBy(x => x.Text)
+                .ToList();
 
             list.Insert(0, new SelectListItem
             {

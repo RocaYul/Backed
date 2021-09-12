@@ -42,6 +42,11 @@ namespace Vehiculos.Models.Helpers
             }
         }
 
+        public Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<User> GetUserAsync(string email)
         {
             return await _dataContext.Users
