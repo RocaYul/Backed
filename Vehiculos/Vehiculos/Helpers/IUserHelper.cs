@@ -11,15 +11,15 @@ namespace Vehiculos.Models.Helpers
     {
         Task<User> GetUserAsync(string email);
 
-        //Task<User> GetUserAsync(Guid id);
+        Task<User> GetUserAsync(Guid id);
 
         Task<IdentityResult> AddUserAsync(User user, string password);
 
         //Task<User> AddUserAsync(AddUserViewModel model, Guid imageId, UserType userType);
 
-        //Task<IdentityResult> UpdateUserAsync(User user);
+        Task<IdentityResult> UpdateUserAsync(User user);
 
-        //Task<IdentityResult> DeleteUserAsync(User user);
+        Task<IdentityResult> DeleteUserAsync(User user);
 
         Task CheckRoleAsync(string roleName);
 

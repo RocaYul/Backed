@@ -61,6 +61,6 @@ namespace Vehiculos.Models
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://vehiclessalazar.azurewebsites.net/images/noimage.png"
-            : $"https://vehiclessalazar.blob.core.windows.net/users/{ImageId}";
+            : $"https://yuroca.blob.core.windows.net/users/{ImageId}";
     }
 }
