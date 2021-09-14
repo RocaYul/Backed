@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vehiculos.Common.Enums;
 using Vehiculos.Data;
 using Vehiculos.Data.Entities;
 
@@ -26,6 +27,33 @@ namespace Vehiculos.Models.Helpers
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<User> AddUserAsync(AddUserViewModel model, Guid imageId, UserType userType)
+        {
+            User user = new User
+            {
+                Address = model.Address,
+                Document = model.Document,
+                Email = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                ImageId = imageId,
+                PhoneNumber = model.PhoneNumber,
+                DocumentType = await _dataContext.TypeDocuments.FindAsync(model.DocumentTypeId),
+                UserName = model.Username,
+                UserType = userType
+            };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            User newUser = await GetUserAsync(model.Username);
+            await AddUserToRoleAsync(newUser, user.UserType.ToString());
+            return newUser;
         }
 
         public async Task AddUserToRoleAsync(User user, string roleName)
