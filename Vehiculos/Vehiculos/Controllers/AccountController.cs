@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Vehiculos.Common.Enums;
+using Vehiculos.Common.Models;
 using Vehiculos.Data;
 using Vehiculos.Data.Entities;
 using Vehiculos.Helpers;
@@ -15,15 +16,19 @@ namespace Vehiculos.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-        private readonly DataContext  _context;
+        private readonly DataContext _context;
         private readonly ICombosHelper _combosHelper;
         private readonly IBlobHelper _blobHelper;
-        public AccountController(IUserHelper userHelper, DataContext context, ICombosHelper combosHelper, IBlobHelper blobHelper)
+        private readonly IMailHelper  _mailHelper;
+    
+    public AccountController(IUserHelper userHelper, DataContext context, ICombosHelper combosHelper, IBlobHelper 
+            blobHelper, IMailHelper mailHelper)
         {
             _userHelper = userHelper;
             _context = context;
             _combosHelper = combosHelper;
             _blobHelper = blobHelper;
+            _mailHelper = mailHelper;
 
         }
         public IActionResult Login()
@@ -98,18 +103,7 @@ namespace Vehiculos.Controllers
                     return View(model);
                 }
 
-                LoginViewModel loginViewModel = new LoginViewModel
-                {
-                    Password = model.Password,
-                    RememberMe = false,
-                    Username = model.Username
-                };
-                var result2 = await _userHelper.LoginAsync(loginViewModel);
-                if (result2.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                /*string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 string tokenLink = Url.Action("ConfirmEmail", "Account", new
                 {
                     userid = user.Id,
@@ -125,13 +119,12 @@ namespace Vehiculos.Controllers
                     return View(model);
                 }
 
-                ModelState.AddModelError(string.Empty, response.Message);*/
+                ModelState.AddModelError(string.Empty, response.Message); 
             }
 
             model.DocumentTypes = _combosHelper.GetComboDocumentTypes();
             return View(model);
         }
-
         public async Task<IActionResult> ChangeUser()
         {
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
@@ -155,7 +148,6 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeUser(EditUserViewModel model)
@@ -216,7 +208,7 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-        /*
+        
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
@@ -238,12 +230,12 @@ namespace Vehiculos.Controllers
 
             return View();
         }
-
+        
         public IActionResult RecoverPassword()
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
         {
@@ -271,7 +263,7 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-
+        
         public IActionResult ResetPassword(string token)
         {
             return View();
@@ -296,6 +288,6 @@ namespace Vehiculos.Controllers
 
             ViewBag.Message = "Usuario no encontrado.";
             return View(model);
-        }*/
+        }
     }
 }
