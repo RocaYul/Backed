@@ -33,7 +33,7 @@ namespace Vehiculos.Models.Helpers
         Task LogoutAsync();
         Task<string> GenerateEmailConfirmationTokenAsync(User user);
 
-        //Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
+        Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
 
         //Task<string> GenerateEmailConfirmationTokenAsync(User user);
 

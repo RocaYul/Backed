@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,7 +77,6 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(AddUserViewModel model)
@@ -132,7 +132,7 @@ namespace Vehiculos.Controllers
             return View(model);
         }
 
-        /*public async Task<IActionResult> ChangeUser()
+        public async Task<IActionResult> ChangeUser()
         {
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user == null)
@@ -155,7 +155,7 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeUser(EditUserViewModel model)
@@ -175,7 +175,7 @@ namespace Vehiculos.Controllers
                 user.Address = model.Address;
                 user.PhoneNumber = model.PhoneNumber;
                 user.ImageId = imageId;
-                user.DocumentType = await _context.DocumentTypes.FindAsync(model.DocumentTypeId);
+                user.DocumentType = await _context.TypeDocuments.FindAsync(model.DocumentTypeId);
                 user.Document = model.Document;
                 await _userHelper.UpdateUserAsync(user);
                 return RedirectToAction("Index", "Home");
@@ -184,12 +184,12 @@ namespace Vehiculos.Controllers
             model.DocumentTypes = _combosHelper.GetComboDocumentTypes();
             return View(model);
         }
-
+        
         public IActionResult ChangePassword()
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -216,7 +216,7 @@ namespace Vehiculos.Controllers
 
             return View(model);
         }
-
+        /*
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
